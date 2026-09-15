@@ -1,1 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Call & Chat</title>
+  <link rel="stylesheet" href="style.css">
+</head>
 
+<body>
+
+  <div class="app">
+
+    <div class="header">
+      <h1>Video Call & Chat</h1>
+      <p>Connect with your friends</p>
+    </div>
+
+    <div class="container">
+
+      <input type="text" id="name" placeholder="Enter your name">
+
+      <button onclick="startCall()">Start Video Call</button>
+
+      <button onclick="openChat()">Open Chat</button>
+
+      <div class="video-box">
+        Video Call Area
+      </div>
+
+      <input type="text" id="message" placeholder="Type a message">
+
+      <button onclick="sendMessage()">Send Message</button>
+
+      <p id="status"></p>
+
+    </div>
+
+  </div>
+
+  <script>
+    function startCall() {
+      document.getElementById("status").innerText =
+        "Video call feature is ready to connect.";
+    }
+
+    function openChat() {
+      document.getElementById("status").innerText =
+        "Chat opened.";
+    }
+
+    function sendMessage() {
+      let message = document.getElementById("message").value;
+
+      if (message.trim() !== "") {
+        document.getElementById("status").innerText =
+          "Message: " + message;
+
+        document.getElementById("message").value = "";
+      }
+    }
+  </script>
+
+</body>
+</html>
