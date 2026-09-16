@@ -3,63 +3,80 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Video Call & Chat</title>
+  <title>My Video Chat</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
   <div class="app">
+    <h1>My Video Chat</h1>
+    <p>Secure Video Call & Chat</p>
 
-    <div class="header">
-      <h1>Video Call & Chat</h1>
-      <p>Connect with your friends</p>
+    <div class="video-box">
+      <video id="localVideo" autoplay muted playsinline></video>
     </div>
 
-    <div class="container">
+    <div class="buttons">
+      <button onclick="startCamera()">📹 Start Camera</button>
+      <button onclick="startCall()">📞 Start Call</button>
+      <button onclick="endCall()">❌ End Call</button>
+    </div>
 
-      <input type="text" id="name" placeholder="Enter your name">
+    <div class="chat">
+      <h2>💬 Chat</h2>
 
-      <button onclick="startCall()">Start Video Call</button>
+      <div id="messages"></div>
 
-      <button onclick="openChat()">Open Chat</button>
-
-      <div class="video-box">
-        Video Call Area
+      <div class="chat-input">
+        <input id="messageInput" type="text" placeholder="Type a message...">
+        <button onclick="sendMessage()">Send</button>
       </div>
-
-      <input type="text" id="message" placeholder="Type a message">
-
-      <button onclick="sendMessage()">Send Message</button>
-
-      <p id="status"></p>
-
     </div>
-
   </div>
 
-  <script>
-    function startCall() {
-      document.getElementById("status").innerText =
-        "Video call feature is ready to connect.";
-    }
+<script>
+async function startCamera() {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: true,
+      audio: true
+    });
 
-    function openChat() {
-      document.getElementById("status").innerText =
-        "Chat opened.";
-    }
+    document.getElementById("localVideo").srcObject = stream;
+  } catch (error) {
+    alert("Camera/Microphone permission required");
+  }
+}
 
-    function sendMessage() {
-      let message = document.getElementById("message").value;
+function startCall() {
+  alert("Video call system is ready for the next setup.");
+}
 
-      if (message.trim() !== "") {
-        document.getElementById("status").innerText =
-          "Message: " + message;
+function endCall() {
+  const video = document.getElementById("localVideo");
 
-        document.getElementById("message").value = "";
-      }
-    }
-  </script>
+  if (video.srcObject) {
+    video.srcObject.getTracks().forEach(track => track.stop());
+    video.srcObject = null;
+  }
+}
+
+function sendMessage() {
+  const input = document.getElementById("messageInput");
+  const message = input.value.trim();
+
+  if (message === "") return;
+
+  const messages = document.getElementById("messages");
+
+  const newMessage = document.createElement("div");
+  newMessage.textContent = message;
+
+  messages.appendChild(newMessage);
+  input.value = "";
+}
+</script>
 
 </body>
 </html>
